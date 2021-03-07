@@ -7,6 +7,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,6 +20,10 @@ import java.util.Optional;
 @Slf4j
 public class NoticeService {
     private final NoticeRepository noticeRepository;
+
+    @PersistenceContext
+    EntityManager entityManager;
+
 
     public NoticeService(NoticeRepository noticeRepository) {
         this.noticeRepository = noticeRepository;
@@ -58,6 +68,7 @@ public class NoticeService {
     }
 
     public List<Notice> getNotices(int pageNumber) {
+
         int pageSize = 15; //products per page
 
         org.springframework.data.domain.Pageable pageable = PageRequest.of(pageNumber, pageSize);
@@ -71,6 +82,31 @@ public class NoticeService {
         else
         {
             throw new NoticeNotFoundException("No notices available");
+        }
+    }
+
+    public List<Notice> searchForNotices(String searchQuery) {
+
+        Query query = entityManager.createNativeQuery("SELECT * FROM notice Where MATCH(notice_topic) AGAINST (:searchQuery IN BOOLEAN MODE)", Notice.class);
+
+        query.setParameter("searchQuery", searchQuery+"*");
+
+        try
+        {
+            Iterator iterator = query.getResultList().iterator();
+
+            List<Notice> result = new ArrayList<>();
+
+            while (iterator.hasNext()) {
+                Notice notice = (Notice) iterator.next();
+                result.add(notice);
+            }
+
+            return result;
+
+        }catch (Exception e)
+        {
+            throw new RuntimeException(e);
         }
     }
 }

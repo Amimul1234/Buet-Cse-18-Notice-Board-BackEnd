@@ -23,4 +23,10 @@ public class NoticeControlViewer {
     {
         return noticeService.getNotices(pageNumber);
     }
+
+    @GetMapping(path = "/searchNotices")
+    public List<Notice> searchForNotices(@RequestParam("searchQuery") String searchQuery)
+    {
+        return noticeService.searchForNotices(searchQuery);
+    }
 }
