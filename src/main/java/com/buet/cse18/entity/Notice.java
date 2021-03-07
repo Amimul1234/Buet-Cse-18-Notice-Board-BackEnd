@@ -23,8 +23,6 @@ public class Notice implements Serializable {
     private String noticeDate;
     @Column(columnDefinition = "LONGTEXT")
     private String noticeImageLink;
-    @Column(columnDefinition = "LONGTEXT")
-    private String noticeAttachmentLink;
     @Column(nullable = false)
     private String noticeIsMadeBy;
 }

@@ -3,6 +3,7 @@ package com.buet.cse18.controllers;
 import com.buet.cse18.entity.Notice;
 import com.buet.cse18.services.NoticeService;
 import org.springframework.web.bind.annotation.*;
+import java.util.List;
 
 @RestController
 @RequestMapping(path = "/admin/noticeBoard/v1")
@@ -30,5 +31,17 @@ public class NoticeControlAdmin {
     public String deleteExistentNotice(@RequestParam(name = "noticeId") Long noticeId)
     {
         return noticeService.deleteNotice(noticeId);
+    }
+
+    @GetMapping(path = "/getCurrentNotices")
+    public List<Notice> getNotices(@RequestParam("pageNumber") int pageNumber)
+    {
+        return noticeService.getNotices(pageNumber);
+    }
+
+    @GetMapping(path = "/searchNotices")
+    public List<Notice> searchForNotices(@RequestParam("searchQuery") String searchQuery)
+    {
+        return noticeService.searchForNotices(searchQuery);
     }
 }

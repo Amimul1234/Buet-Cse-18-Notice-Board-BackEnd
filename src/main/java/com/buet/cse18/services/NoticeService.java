@@ -7,7 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -46,8 +45,7 @@ public class NoticeService {
 
             notice1.setNoticeTopic(notice.getNoticeTopic());
             notice1.setNoticeDate(notice.getNoticeDate());
-            notice1.setNoticeImageLink(notice.getNoticeAttachmentLink());
-            notice1.setNoticeAttachmentLink(notice.getNoticeAttachmentLink());
+            notice1.setNoticeImageLink(notice.getNoticeImageLink());
             notice1.setNoticeIsMadeBy(notice.getNoticeIsMadeBy());
 
             noticeRepository.save(notice1);
