@@ -17,8 +17,8 @@ import java.util.UUID;
 @Slf4j
 @RestController
 public class ImageController {
-    @PostMapping("/imageController/{directory}")
 
+    @PostMapping("/imageController/{directory}")
     public String saveImageInProject(@PathVariable("directory") String directory,
                                              @RequestPart(name = "multipartFile") MultipartFile multipartFile)
     {
