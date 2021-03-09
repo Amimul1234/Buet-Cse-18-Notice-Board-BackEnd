@@ -19,10 +19,14 @@ public class Notice implements Serializable {
     private Long noticeId;
     @Column(nullable = false, columnDefinition = "LONGTEXT")
     private String noticeTopic;
+    @Column(nullable = false, columnDefinition = "LONGTEXT")
+    private String noticeDescription;
     @Column(nullable = false)
     private String noticeDate;
     @Column(columnDefinition = "LONGTEXT")
     private String noticeImageLink;
+    @Column(columnDefinition = "LONGTEXT")
+    private String noticeAttachmentLink;
     @Column(nullable = false)
     private String noticeIsMadeBy;
 }

@@ -1,10 +1,9 @@
-package com.buet.cse18.controllers;
+package com.buet.cse18.services;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.FileInputStream;
@@ -14,14 +13,12 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.UUID;
 
+@Service
 @Slf4j
-@RestController
-public class ImageController {
+public class ImageControllingService {
 
-    @PostMapping("/imageController/{directory}")
-    public String saveImageInProject(@PathVariable("directory") String directory,
-                                             @RequestPart(name = "multipartFile") MultipartFile multipartFile)
-    {
+    public String saveImageInFolder(String directory, MultipartFile multipartFile) {
+
         String filename = UUID.randomUUID().toString() + multipartFile.getOriginalFilename();
 
         try {
@@ -41,15 +38,36 @@ public class ImageController {
             return response;
 
         } catch (IOException e) {
-            String failed = "Failed to save image, Please try again";
-            return failed;
+            log.error("Failed to save image, Error is: "+e.getMessage());
+            throw new RuntimeException(e);
         }
-
     }
 
-    @GetMapping(value = "/getImageFromServer", produces = MediaType.IMAGE_JPEG_VALUE)
-    public ResponseEntity sendImageToClient(@RequestParam(name = "path_of_image") String path_of_image)
-    {
+    public String deleteImage(String path_of_image) {
+
+        File file = new File(path_of_image);
+
+        if(file.exists())
+        {
+            try
+            {
+                file.delete();
+                return "Image Successfully Deleted";
+            }
+            catch (Exception e)
+            {
+                log.error("Failed to delete image, Error is: "+e.getMessage());
+                throw new RuntimeException(e);
+            }
+        }
+        else
+        {
+            log.error("File does not exists, path is: "+path_of_image);
+            throw new RuntimeException("Image file does not exists");
+        }
+    }
+
+    public ResponseEntity<?> getImageFromServer(String path_of_image) {
 
         byte[] requested_image;
 
@@ -73,30 +91,4 @@ public class ImageController {
                     .body("No such image");
         }
     }
-
-    @DeleteMapping("/getImageFromServer")
-    public ResponseEntity deleteImage(@RequestParam(name = "path_of_image") String path_of_image)
-    {
-        File file = new File(path_of_image);
-
-        if(file.exists())
-        {
-            try
-            {
-                file.delete();
-                return ResponseEntity.status(HttpStatus.OK).body("Image Successfully Deleted");
-            }
-            catch (Exception e)
-            {
-                log.error("Failed to delete image");
-                return ResponseEntity.status(HttpStatus.FAILED_DEPENDENCY).body("Failed To Delete Image");
-            }
-        }
-        else
-        {
-            log.error("File does not exists, path is: "+path_of_image);
-            return ResponseEntity.status(HttpStatus.FAILED_DEPENDENCY).body("Image does not exists");
-        }
-    }
-
 }
