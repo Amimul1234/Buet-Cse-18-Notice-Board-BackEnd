@@ -47,6 +47,7 @@ public class NoticeService {
             notice1.setNoticeDate(notice.getNoticeDate());
             notice1.setNoticeImageLink(notice.getNoticeImageLink());
             notice1.setNoticeIsMadeBy(notice.getNoticeIsMadeBy());
+            notice1.setNoticeAttachmentLink(notice.getNoticeAttachmentLink());
 
             noticeRepository.save(notice1);
 
