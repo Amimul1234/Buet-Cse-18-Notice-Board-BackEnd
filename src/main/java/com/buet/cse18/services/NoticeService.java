@@ -48,6 +48,7 @@ public class NoticeService {
             notice1.setNoticeImageLink(notice.getNoticeImageLink());
             notice1.setNoticeIsMadeBy(notice.getNoticeIsMadeBy());
             notice1.setNoticeAttachmentLink(notice.getNoticeAttachmentLink());
+            notice1.setNoticeDescription(notice.getNoticeDescription());
 
             noticeRepository.save(notice1);
 
@@ -68,7 +69,7 @@ public class NoticeService {
 
     public List<Notice> getNotices(int pageNumber) {
 
-        int pageSize = 15; //products per page
+        int pageSize = 10; //products per page
 
         org.springframework.data.domain.Pageable pageable = PageRequest.of(pageNumber, pageSize);
 
