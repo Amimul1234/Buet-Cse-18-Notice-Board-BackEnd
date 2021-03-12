@@ -69,7 +69,7 @@ public class NoticeService {
 
     public List<Notice> getNotices(int pageNumber) {
 
-        int pageSize = 15; //products per page
+        int pageSize = 10; //products per page
 
         org.springframework.data.domain.Pageable pageable = PageRequest.of(pageNumber, pageSize);
 
