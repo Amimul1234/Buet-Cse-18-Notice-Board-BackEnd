@@ -17,15 +17,15 @@ public class Notice implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long noticeId;
-    @Column(nullable = false, columnDefinition = "LONGTEXT")
+    @Column(nullable = false, columnDefinition = "NTEXT")
     private String noticeTopic;
-    @Column(nullable = false, columnDefinition = "LONGTEXT")
+    @Column(nullable = false, columnDefinition = "NTEXT")
     private String noticeDescription;
     @Column(nullable = false)
     private String noticeDate;
-    @Column(columnDefinition = "LONGTEXT")
+    @Column(columnDefinition = "NTEXT")
     private String noticeImageLink;
-    @Column(columnDefinition = "LONGTEXT")
+    @Column(columnDefinition = "NTEXT")
     private String noticeAttachmentLink;
     @Column(nullable = false)
     private String noticeIsMadeBy;
